@@ -1,5 +1,4 @@
 library(shiny)
-library(firebase)
 
 ui <- function(req) {
 
@@ -15,13 +14,15 @@ ui <- function(req) {
       id = "menu_superior",
       tabPanel(
         title = "Home",
-        useFirebase(),
+        shinyjs::useShinyjs(),
         fluidRow(
           column(
             width = 12,
             includeMarkdown("texto_inicial.md")
           )
-        )
+        ),
+        br(),
+        actionButton("logout", "Sair")
       ),
       tabPanel(
         title = "Página 1",
@@ -53,7 +54,6 @@ ui <- function(req) {
 
 }
 
-
 server <- function(input, output) {
 
   output$grafico <- renderPlot({
@@ -62,6 +62,11 @@ server <- function(input, output) {
 
   output$grafico2 <- renderPlot({
     plot(x = mtcars[[input$variavel_x]], y = mtcars[[input$variavel_y]])
+  })
+
+  observeEvent(input$logout, {
+    js <- 'location.replace("http://127.0.0.1:4242")'
+    shinyjs::runjs(js)
   })
 
 }

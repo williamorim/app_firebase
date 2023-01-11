@@ -8,10 +8,10 @@ const uiConfig = {
       return true
     },
     uiShown() {
-      document.getElementById("loader").style.display = "none"
+      document.getElementById("loader").style.display = "none";
     },
   },
-  signInFlow: "popup",
+  signInFlow: "redirect",
   signInSuccessUrl: "http://127.0.0.1:4242/?t=true",
   signInOptions: [
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -23,3 +23,11 @@ const uiConfig = {
 // 3) Call the 'start' method on our ui class
 // including our configuration options.
 ui.start("#firebaseui-auth-container", uiConfig)
+
+logout = function() {
+  firebase.auth().signOut().then(function() {
+    console.log('Signed Out');
+  }, function(error) {
+    console.error('Sign Out Error', error);
+  });
+}
